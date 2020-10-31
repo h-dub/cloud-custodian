@@ -15,18 +15,18 @@ from c7n.utils import local_session
 
 
 def get_ext_ip():
-    #local external ip needs to be added to the database when recording
+    # local external ip needs to be added to the database when recording
     from requests import get
     return get('https://api.ipify.org').text
 
 
 def get_portal_ips():
-    #https://docs.microsoft.com/en-us/azure/cosmos-db/how-to-configure-firewall?WT.mc_id=Portal-Microsoft_Azure_DocumentDB#connections-from-the-azure-portal
-    return set('104.42.195.92,40.76.54.131,52.176.6.30,52.169.50.45,52.187.184.26'.split(','))  
+    # https://docs.microsoft.com/en-us/azure/cosmos-db/how-to-configure-firewall?WT.mc_id=Portal-Microsoft_Azure_DocumentDB#connections-from-the-azure-portal
+    return set('104.42.195.92,40.76.54.131,52.176.6.30,52.169.50.45,52.187.184.26'.split(','))
 
 
 def get_azuredc_ip():
-    #this means "azure datacenters only"
+    # this means "azure datacenters only"
     return '0.0.0.0'
 
 
@@ -373,13 +373,13 @@ class CosmosDBFirewallActionTest(BaseTest):
         self.assertEqual(1, len(update_mock.mock_calls))
         name, args, kwargs = update_mock.mock_calls[0]
 
-        expected_ip = set(['11.12.13.14', '21.22.23.24', get_ext_ip()])
-        expected_ip.update(get_portal_ips())
-        actual_ip = set(kwargs['create_update_parameters']['properties']['ipRangeFilter'].split(','))
-        
+        expected = set(['11.12.13.14', '21.22.23.24', get_ext_ip()])
+        expected.update(get_portal_ips())
+        actual = set(kwargs['create_update_parameters']['properties']['ipRangeFilter'].split(','))
+
         self.assertEqual(resources[0]['resourceGroup'], args[0])
         self.assertEqual(resources[0]['name'], args[1])
-        self.assertEqual(expected_ip, actual_ip)
+        self.assertEqual(expected, actual)
 
     @patch('azure.mgmt.cosmosdb.operations._database_accounts_operations.'
            'DatabaseAccountsOperations.create_or_update')
@@ -408,14 +408,13 @@ class CosmosDBFirewallActionTest(BaseTest):
         self.assertEqual(1, len(update_mock.mock_calls))
         name, args, kwargs = update_mock.mock_calls[0]
 
-        expected_ip = set(['11.12.13.14', '21.22.23.24', get_ext_ip()])
-        expected_ip.update(get_portal_ips())
-        actual_ip = set(kwargs['create_update_parameters']['properties']['ipRangeFilter'].split(','))
+        expected = set(['11.12.13.14', '21.22.23.24', get_ext_ip()])
+        expected.update(get_portal_ips())
+        actual = set(kwargs['create_update_parameters']['properties']['ipRangeFilter'].split(','))
 
         self.assertEqual(resources[0]['resourceGroup'], args[0])
         self.assertEqual(resources[0]['name'], args[1])
-        self.assertEqual(expected_ip, actual_ip)
-
+        self.assertEqual(expected, actual)
 
     @patch('azure.mgmt.cosmosdb.operations._database_accounts_operations.'
            'DatabaseAccountsOperations.create_or_update')
@@ -445,13 +444,13 @@ class CosmosDBFirewallActionTest(BaseTest):
         self.assertEqual(1, len(update_mock.mock_calls))
         name, args, kwargs = update_mock.mock_calls[0]
 
-        expected_ip = set(['11.12.13.14', '21.22.23.24', get_ext_ip(), get_azuredc_ip()])
-        expected_ip.update(get_portal_ips())
-        actual_ip = set(kwargs['create_update_parameters']['properties']['ipRangeFilter'].split(','))
+        expected = set(['11.12.13.14', '21.22.23.24', get_ext_ip(), get_azuredc_ip()])
+        expected.update(get_portal_ips())
+        actual = set(kwargs['create_update_parameters']['properties']['ipRangeFilter'].split(','))
 
         self.assertEqual(resources[0]['resourceGroup'], args[0])
         self.assertEqual(resources[0]['name'], args[1])
-        self.assertEqual(expected_ip, actual_ip)
+        self.assertEqual(expected, actual)
 
     @patch('azure.mgmt.cosmosdb.operations._database_accounts_operations.'
            'DatabaseAccountsOperations.create_or_update')
@@ -484,10 +483,10 @@ class CosmosDBFirewallActionTest(BaseTest):
         self.assertEqual(resources[0]['resourceGroup'], args[0])
         self.assertEqual(resources[0]['name'], args[1])
 
-        expected_ip = set(['21.22.23.24', get_ext_ip()])
-        actual_ip = set(kwargs['create_update_parameters']['properties']['ipRangeFilter'].split(','))
+        expected = set(['21.22.23.24', get_ext_ip()])
+        actual = set(kwargs['create_update_parameters']['properties']['ipRangeFilter'].split(','))
 
-        self.assertEqual(expected_ip, actual_ip)
+        self.assertEqual(expected, actual)
 
     @patch('azure.mgmt.cosmosdb.operations._database_accounts_operations.'
            'DatabaseAccountsOperations.create_or_update')
@@ -516,13 +515,13 @@ class CosmosDBFirewallActionTest(BaseTest):
 
         name, args, kwargs = update_mock.mock_calls[0]
 
-        expected_ip = set(['11.12.13.14', '21.22.23.24', get_ext_ip()])
-        expected_ip.update(get_portal_ips())
-        actual_ip = set(kwargs['create_update_parameters']['properties']['ipRangeFilter'].split(','))
+        expected = set(['11.12.13.14', '21.22.23.24', get_ext_ip()])
+        expected.update(get_portal_ips())
+        actual = set(kwargs['create_update_parameters']['properties']['ipRangeFilter'].split(','))
 
         self.assertEqual(resources[0]['resourceGroup'], args[0])
         self.assertEqual(resources[0]['name'], args[1])
-        self.assertEqual(expected_ip, actual_ip)
+        self.assertEqual(expected, actual)
         self.assertEqual(
             {'id1', 'id2'},
             {r.id for r in
