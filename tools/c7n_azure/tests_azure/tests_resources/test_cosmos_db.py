@@ -549,6 +549,7 @@ class CosmosDBThroughputActionsTest(BaseTest):
                 self.offer
             )
 
+    @cassette_name('test_replace_offer_collection_action')
     def test_replace_offer_collection_action(self):
         p = self.load_policy({
             'name': 'test-azure-cosmosdb',
@@ -580,6 +581,7 @@ class CosmosDBThroughputActionsTest(BaseTest):
         self.assertEqual(len(collections), 1)
         self._assert_offer_throughput_equals(500, collections[0]['_self'])
 
+    @cassette_name('test_restore_throughput_state_updates_throughput_from_tag')
     def test_restore_throughput_state_updates_throughput_from_tag(self):
 
         p1 = self.load_policy({
