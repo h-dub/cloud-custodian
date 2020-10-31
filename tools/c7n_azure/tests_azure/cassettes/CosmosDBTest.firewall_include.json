@@ -15,16 +15,16 @@
                 },
                 "headers": {
                     "date": [
-                        "Wed, 28 Oct 2020 20:52:00 GMT"
+                        "Sat, 31 Oct 2020 04:39:17 GMT"
+                    ],
+                    "content-length": [
+                        "13"
                     ],
                     "content-type": [
                         "text/plain"
                     ],
                     "via": [
                         "1.1 vegur"
-                    ],
-                    "content-length": [
-                        "13"
                     ]
                 },
                 "body": {
@@ -45,17 +45,17 @@
                     "message": "Ok"
                 },
                 "headers": {
+                    "cache-control": [
+                        "no-store, no-cache"
+                    ],
                     "date": [
-                        "Wed, 28 Oct 2020 20:52:00 GMT"
+                        "Sat, 31 Oct 2020 04:39:16 GMT"
                     ],
                     "content-type": [
                         "application/json"
                     ],
-                    "cache-control": [
-                        "no-store, no-cache"
-                    ],
                     "content-length": [
-                        "2253"
+                        "2336"
                     ]
                 },
                 "body": {
@@ -67,9 +67,12 @@
                                 "location": "South Central US",
                                 "type": "Microsoft.DocumentDB/databaseAccounts",
                                 "kind": "GlobalDocumentDB",
-                                "tags": {},
+                                "tags": {
+                                    "test-store-throughput": "JZ07ANKIMdw=:4",
+                                    "test-restore-throughput": "JZ07ANKIMdw=:4"
+                                },
                                 "systemData": {
-                                    "createdAt": "2020-10-28T17:09:14.7140153Z"
+                                    "createdAt": "2020-10-31T03:48:04.4977476Z"
                                 },
                                 "properties": {
                                     "provisioningState": "Succeeded",
@@ -83,7 +86,7 @@
                                     "disableKeyBasedMetadataWriteAccess": false,
                                     "enableFreeTier": false,
                                     "enableAnalyticalStorage": false,
-                                    "instanceId": "ecb4e17d-0c26-42a1-af42-373e9abdfb2a",
+                                    "instanceId": "4649d200-f0d6-460e-8fd7-eac29464b96a",
                                     "createMode": "Default",
                                     "databaseAccountOfferType": "Standard",
                                     "ipRangeFilter": "67.185.99.110,104.42.195.92,40.76.54.131,52.176.6.30,52.169.50.45,52.187.184.26",

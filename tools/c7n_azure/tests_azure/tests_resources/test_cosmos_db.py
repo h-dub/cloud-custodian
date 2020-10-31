@@ -348,7 +348,6 @@ class CosmosDBFirewallActionTest(BaseTest):
 
     @patch('azure.mgmt.cosmosdb.operations._database_accounts_operations.'
            'DatabaseAccountsOperations.create_or_update')
-    @cassette_name('firewall_action')
     @arm_template('cosmosdb.json')
     def test_set_ip_range_filter_append(self, update_mock):
         p = self.load_policy({
@@ -383,7 +382,6 @@ class CosmosDBFirewallActionTest(BaseTest):
 
     @patch('azure.mgmt.cosmosdb.operations._database_accounts_operations.'
            'DatabaseAccountsOperations.create_or_update')
-    @cassette_name('firewall_action')
     @arm_template('cosmosdb.json')
     def test_set_ip_range_filter_replace(self, update_mock):
         p = self.load_policy({
@@ -418,7 +416,6 @@ class CosmosDBFirewallActionTest(BaseTest):
 
     @patch('azure.mgmt.cosmosdb.operations._database_accounts_operations.'
            'DatabaseAccountsOperations.create_or_update')
-    @cassette_name('firewall_action')
     @arm_template('cosmosdb.json')
     def test_set_ip_range_filter_replace_bypass(self, update_mock):
         p = self.load_policy({
@@ -454,7 +451,6 @@ class CosmosDBFirewallActionTest(BaseTest):
 
     @patch('azure.mgmt.cosmosdb.operations._database_accounts_operations.'
            'DatabaseAccountsOperations.create_or_update')
-    @cassette_name('firewall_action')
     @arm_template('cosmosdb.json')
     def test_set_ip_range_filter_remove_bypass(self, update_mock):
         p = self.load_policy({
@@ -490,7 +486,6 @@ class CosmosDBFirewallActionTest(BaseTest):
 
     @patch('azure.mgmt.cosmosdb.operations._database_accounts_operations.'
            'DatabaseAccountsOperations.create_or_update')
-    @cassette_name('firewall_action')
     @arm_template('cosmosdb.json')
     def test_set_vnet_append(self, update_mock):
         p = self.load_policy({
