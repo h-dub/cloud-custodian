@@ -45,4 +45,6 @@ docs/source/tools/*\.md
 docs/source/*/resources
 docs/source/tools/assets/
 .tfcache
+.tfstate
+.tfvars
 .env
