@@ -440,6 +440,71 @@ class ServerCertificate(QueryResourceManager):
         global_resource = True
 
 
+@ServerCertificate.action_registry.register('delete')
+class CertificateDelete(BaseAction):
+    """Delete an IAM Certificate.
+
+    For example, if you want to automatically delete an unused IAM certificate.
+
+    :example:
+
+      .. code-block:: yaml
+
+        - name: aws-iam-certificate-delete-expired
+          resource: iam-certificate
+          filters:
+            - type: value
+              key: Expiration
+              value_type: expiration
+              op: greater-than
+              value: 0
+          actions:
+            - type: delete
+
+    """
+
+    # TODO figure out what permission
+    schema = type_schema('delete')
+    permissions = ('iam:DeleteServerCertificate',)
+
+    def detach_inline_policies(self, client, r):
+        #TODO: write this
+        # policies = (self.manager.retry(
+        #     client.list_role_policies, RoleName=r['RoleName'],
+        #     ignore_err_codes=('NoSuchEntityException',)) or {}).get('PolicyNames', ())
+        # for p in policies:
+        #     self.manager.retry(
+        #         client.delete_role_policy,
+        #         RoleName=r['RoleName'], PolicyName=p,
+        #         ignore_err_codes=('NoSuchEntityException',))
+
+    def process(self, resources):
+        #TODO: write this
+        # client = local_session(self.manager.session_factory).client('iam')
+        # error = None
+        # if self.data.get('force', False):
+        #     policy_setter = self.manager.action_registry['set-policy'](
+        #         {'state': 'detached', 'arn': '*'}, self.manager)
+        #     policy_setter.process(resources)
+
+        # for r in resources:
+        #     if self.data.get('force', False):
+        #         self.detach_inline_policies(client, r)
+        #     try:
+        #         client.delete_role(RoleName=r['RoleName'])
+        #     except client.exceptions.DeleteConflictException as e:
+        #         self.log.warning(
+        #             "Role:%s cannot be deleted, set force to detach policy and delete"
+        #             % r['Arn'])
+        #         error = e
+        #     except (client.exceptions.NoSuchEntityException,
+        #             client.exceptions.UnmodifiableEntityException):
+        #         continue
+        # if error:
+        #     raise error
+
+
+
 @User.filter_registry.register('usage')
 @Role.filter_registry.register('usage')
 @Group.filter_registry.register('usage')
