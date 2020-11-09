@@ -20,22 +20,19 @@ phases:
     - . /venv/bin/activate
     - python -m pip install --upgrade pip && pip install . && pip install -r requirements-dev.txt
     - az login --service-principal -u ${AZURE_CLIENT_ID} -p ${AZURE_CLIENT_SECRET} --tenant ${AZURE_TENANT_ID} && az account set -s ${AZURE_SUBSCRIPTION_ID}
-  
-  deploy:
+
+  pre_build:
     commands:
     - /bin/bash tools/c7n_azure/tests_azure/templates/provision.sh --skip keyvault cost-management-export containerservice databricks postgresql
-
-  functional:
+    
+  build:
     commands:
     - pytest -v -m "not skiplive" tools/c7n_azure/tests_azure
 
-  undeploy:
-    commands:
-    - /bin/bash tools/c7n_azure/tests_azure/templates/cleanup.sh --skip keyvault cost-management-export containerservice databricks postgresql
-    
   post_build:
     commands:
-    - echo 'tomato'
+    - /bin/bash tools/c7n_azure/tests_azure/templates/cleanup.sh --skip keyvault cost-management-export containerservice databricks postgresql
+
 cache:
   paths:
     - .pip-cache
