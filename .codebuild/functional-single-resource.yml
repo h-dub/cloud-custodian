@@ -30,6 +30,7 @@ phases:
 
   pre_build:
     commands:
+    - /bin/bash tools/c7n_azure/tests_azure/templates/cleanup.sh $C7N_FUNCTIONAL_SINGLE_RESOURCE
     - /bin/bash tools/c7n_azure/tests_azure/templates/provision.sh $C7N_FUNCTIONAL_SINGLE_RESOURCE
     
     
