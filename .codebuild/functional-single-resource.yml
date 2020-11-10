@@ -11,7 +11,7 @@ env:
   secrets-manager:
     AZURE_CLIENT_ID: "azure_root_testrunner:AZURE_CLIENT_ID"
     AZURE_CLIENT_SECRET: "azure_root_testrunner:AZURE_CLIENT_SECRET"
-    AZURE_SUBSCRIPTION_ID: "azure_root_testrunner:AZURE_SUBSCRIPTION_ID"P
+    AZURE_SUBSCRIPTION_ID: "azure_root_testrunner:AZURE_SUBSCRIPTION_ID"
     AZURE_TENANT_ID: "azure_root_testrunner:AZURE_TENANT_ID"
 phases:
   install:
