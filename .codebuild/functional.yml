@@ -39,7 +39,7 @@ phases:
   post_build:
     commands:
     #- /bin/bash tools/c7n_azure/tests_azure/templates/cleanup.sh batch
-    - /bin/bash tools/c7n_azure/tests_azure/templates/cleanup.sh --skip keyvault cost-management-export containerservice databricks postgresql
+    #- /bin/bash tools/c7n_azure/tests_azure/templates/cleanup.sh --skip keyvault cost-management-export containerservice databricks postgresql
 
 cache:
   paths:
