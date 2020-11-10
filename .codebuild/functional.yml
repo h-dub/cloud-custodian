@@ -28,15 +28,18 @@ phases:
 
   pre_build:
     commands:
+    #- /bin/bash tools/c7n_azure/tests_azure/templates/provision.sh batch
     - /bin/bash tools/c7n_azure/tests_azure/templates/provision.sh --skip keyvault cost-management-export containerservice databricks postgresql
     
   build:
     commands:
+    #- pytest -v -m "not skiplive" tools/c7n_azure/tests_azure/tests_resources/test_batch.py
     - pytest -v -m "not skiplive" tools/c7n_azure/tests_azure
 
   post_build:
     commands:
-    #- /bin/bash tools/c7n_azure/tests_azure/templates/cleanup.sh --skip keyvault cost-management-export containerservice databricks postgresql
+    #- /bin/bash tools/c7n_azure/tests_azure/templates/cleanup.sh batch
+    - /bin/bash tools/c7n_azure/tests_azure/templates/cleanup.sh --skip keyvault cost-management-export containerservice databricks postgresql
 
 cache:
   paths:
