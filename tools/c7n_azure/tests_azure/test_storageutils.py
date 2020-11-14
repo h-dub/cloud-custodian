@@ -149,14 +149,24 @@ class StorageUtilsTest(BaseTest):
         with self.assertRaises(ValueError):
             account = self.setup_account()
             resource_group = ResourceIdParser.get_resource_group(account.id)
+
+            # Test was unstable without splitting the test and setup clients
+            # In some cases, a permission mismatch error would occur
+            setup_client = StorageUtilities.get_blob_client_from_storage_account(
+                resource_group,
+                account.name,
+                self.session,
+                True)
+
+            # create container for package
+            setup_client.create_container('test')
+            setup_client.create_blob_from_text('test', 'test.txt', 'My test contents.')
+
             blob_client = StorageUtilities.get_blob_client_from_storage_account(
                 resource_group,
                 account.name,
                 self.session)
 
-            # create container for package
-            blob_client.create_container('test')
-            blob_client.create_blob_from_text('test', 'test.txt', 'My test contents.')
             blob_client.generate_blob_shared_access_signature('test', 'test.txt')
 
     @arm_template('storage.json')
