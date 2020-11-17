@@ -256,7 +256,8 @@ class CosmosDBTest(BaseTest):
 
         account_name = collections[0]['c7n:parent']['name']
 
-        self.sleep_in_live_mode()
+        # The tag can take longer than 60 seconds to commit
+        self.sleep_in_live_mode(120)
 
         client = local_session(Session).client(
             'azure.mgmt.cosmosdb.CosmosDBManagementClient')
