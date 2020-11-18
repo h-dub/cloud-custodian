@@ -174,7 +174,7 @@
                                     "instanceId": "14528462-08f1-4579-acd3-fec5b446cafc",
                                     "createMode": "Default",
                                     "databaseAccountOfferType": "Standard",
-                                    "ipRangeFilter": "67.185.99.110,104.42.195.92,40.76.54.131,52.176.6.30,52.169.50.45,52.187.184.26",
+                                    "ipRangeFilter": "104.42.195.92,40.76.54.131,52.176.6.30,52.169.50.45,52.187.184.26",
                                     "consistencyPolicy": {
                                         "defaultConsistencyLevel": "Session",
                                         "maxIntervalInSeconds": 5,
@@ -1280,7 +1280,7 @@
                                     "instanceId": "14528462-08f1-4579-acd3-fec5b446cafc",
                                     "createMode": "Default",
                                     "databaseAccountOfferType": "Standard",
-                                    "ipRangeFilter": "67.185.99.110,104.42.195.92,40.76.54.131,52.176.6.30,52.169.50.45,52.187.184.26",
+                                    "ipRangeFilter": "104.42.195.92,40.76.54.131,52.176.6.30,52.169.50.45,52.187.184.26",
                                     "consistencyPolicy": {
                                         "defaultConsistencyLevel": "Session",
                                         "maxIntervalInSeconds": 5,
