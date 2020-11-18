@@ -1,4 +1,5 @@
 #!/bin/bash
+set -exo pipefail
 IFS=$'\n\t'
 # IFS new value is less likely to cause confusing bugs when looping arrays or arguments (e.g. $@)
 
