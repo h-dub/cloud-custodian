@@ -6,6 +6,7 @@ import enum
 import hashlib
 import itertools
 import logging
+import random
 import re
 import time
 import uuid
@@ -139,12 +140,13 @@ def custodian_azure_send_override(self, request, headers=None, content=None, **k
             if k.startswith('x-ms-ratelimit'):
                 send_logger.debug(k + ':' + v)
 
-        # Retry codes from urllib3/util/retry.py
-        if response.status_code in [413, 429, 503]:
+        if response.status_code in [429, 503]:
             retry_after = None
             for k in response.headers.keys():
                 if StringUtils.equal('retry-after', k):
                     retry_after = int(response.headers[k])
+                else:
+                    retry_after = (5 * retries) + random.randint(1, 5)
 
             if retry_after is not None and retry_after < constants.DEFAULT_MAX_RETRY_AFTER:
                 send_logger.warning('Received retriable error code %i. Retry-After: %i'
