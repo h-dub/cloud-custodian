@@ -16,7 +16,7 @@ from c7n.utils import local_session
 def get_ext_ip():
     # local external ip needs to be added to the database when recording
     from requests import get
-    return get('https://api.ipify.org').text
+    return get('https://checkip.amazonaws.com').text
 
 
 def get_portal_ips():
