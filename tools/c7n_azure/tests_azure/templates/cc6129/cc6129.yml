@@ -1,0 +1,13 @@
+policies:
+  - name: az-publicip-without-ddosnotify
+    resource: azure.publicip
+    filters:
+      - or:
+        - type: diagnostic-settings
+          key: logs[?category == 'DDoSProtectionNotifications'][].enabled
+          value: absent
+        - type: diagnostic-settings
+          key: logs[?category == 'DDoSProtectionNotifications'][].enabled
+          value: False
+          op: in
+          value_type: swap
