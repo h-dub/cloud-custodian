@@ -1,0 +1,10 @@
+policies:
+  - name: storage-not-georedundant
+    description: |
+      Find all storage accounts that are not using a georedundant SKU
+    resource: azure.storage
+    filters:
+      - type: value
+        key: sku.name
+        op: equal
+        value: Standard_LRS
