@@ -1,0 +1,20 @@
+policies:
+  - name: auto-owner-key-vault
+    resource: azure.keyvault
+    mode:
+      type: azure-event-grid
+      events: [{
+          resourceProvider: 'Microsoft.KeyVault/vaults',
+          event: 'write'
+        }]
+      provision-options:
+        identity:
+          type: UserAssigned
+          id: ccauto
+    filters:
+      - "tag:Owner": null
+    description: |
+      Tag all new key-vault with the 'Owner Email' tag.
+    actions:
+      - type: auto-tag-user
+        tag: Owner
