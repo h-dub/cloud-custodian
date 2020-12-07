@@ -1,0 +1,19 @@
+policies:
+  - name: auto-owner-resourcegroup
+    resource: azure.resourcegroup
+    mode:
+      type: azure-event-grid
+      events: [{
+          resourceProvider: 'Microsoft.Resources/subscriptions/resourceGroups',
+          event: 'write'
+        }]
+    filters:
+      - "tag:Owner": null
+    description: |
+      Tag all new Resoruce Groups with the 'Owner Email' tag and DateCreated tag
+    actions:
+      - type: auto-tag-user
+        tag: Owner
+      - type: auto-tag-date
+        tag: DateCreated
+        format: "%m-%d-%Y"
