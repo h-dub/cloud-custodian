@@ -1,0 +1,16 @@
+policies:
+  - name: auto-owner-publicip
+    resource: azure.publicip
+    mode:
+      type: azure-event-grid
+      events: [{
+          resourceProvider: 'Microsoft.Network/publicIPAddresses',
+          event: 'write'
+        }]
+    filters:
+      - "tag:Owner": null
+    description: |
+      Tag all new Public IP with the 'Owner Email' tag.
+    actions:
+      - type: auto-tag-user
+        tag: Owner
