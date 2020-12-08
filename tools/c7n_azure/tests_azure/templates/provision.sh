@@ -98,7 +98,7 @@ deploy_resource() {
     fi
 
     if [[ "$fileName" == "cosmosdb.json" ]]; then
-        ip=$(curl -s https://api.ipify.org)
+        ip=$(curl -s https://checkip.amazonaws.com)
         allow_list="$ip,104.42.195.92,40.76.54.131,52.176.6.30,52.169.50.45,52.187.184.26"
         sub_id=$(az account show --query id --output tsv)
         suffix="${sub_id:${#sub_id} - 12}"

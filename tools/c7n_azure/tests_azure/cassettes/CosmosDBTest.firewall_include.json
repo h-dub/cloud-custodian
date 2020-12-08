@@ -4,7 +4,7 @@
         {
             "request": {
                 "method": "GET",
-                "uri": "https://api.ipify.org/",
+                "uri": "https://checkip.amazonaws.com/",
                 "body": null,
                 "headers": {}
             },
