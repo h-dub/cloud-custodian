@@ -10,6 +10,9 @@ IFS=$'\n\t'
 # cost-management-export: requires SP to have valid email claim
 # keyvault: Managed Storage can't be provisioned with SP
 
+# The subscription may need preconditioning. This command took several hours to transition to the registered state
+# az provider register --namespace Microsoft.CostManagementExports
+
 resourceLocation="South Central US"
 templateDirectory="$( cd "$( dirname "$0" )" && pwd )"
 
@@ -64,9 +67,17 @@ deploy_resource() {
         az keyvault certificate create --vault-name ${vault_name} --name cctest1 -p "$(az keyvault certificate get-default-policy)" --output None
         az keyvault certificate create --vault-name ${vault_name} --name cctest2 -p "$(az keyvault certificate get-default-policy)" --output None
 
-     #   az role assignment create --role "Storage Account Key Operator Service Role" --assignee cfa8b339-82a2-471a-a3c9-0fc0be7a4093 --scope ${storage_id} --output None
+        az role assignment create --role "Storage Account Key Operator Service Role" --assignee cfa8b339-82a2-471a-a3c9-0fc0be7a4093 --scope ${storage_id} --output None
         az keyvault storage add --vault-name ${vault_name} -n storage1 --active-key-name key1 --resource-id ${storage_id} --auto-regenerate-key True --regeneration-period P720D  --output None
         az keyvault storage add --vault-name ${vault_name} -n storage2 --active-key-name key2 --resource-id ${storage_id} --auto-regenerate-key False --output None
+
+        # Sort out perms for the test runner
+        # note: The portal only shows key,secret, and cert policy UI. To configure storage you have to use cmdline.
+        cert_perms="backup create delete deleteissuers get getissuers import list listissuers managecontacts manageissuers purge recover restore setissuers update"
+        key_perms="backup create decrypt delete encrypt get import list purge recover restore sign unwrapKey update verify wrapKey"
+        secret_perms="backup delete get list purge recover restore set"
+        storage_perms="backup delete deletesas get getsas list listsas purge recover regeneratekey restore set setsas update"
+        az keyvault set-policy --spn $AZURE_CLIENT_ID -n $vault_name --certificate-permissions $cert_perms --key-permissions $key_perms --secret-permissions $secret_perms --storage-permissions $storage_perms
 
     elif [[ "$fileName" == "aks.json" ]]; then
 
@@ -111,7 +122,7 @@ deploy_resource() {
 
 deploy_acs() {
     rgName=test_containerservice
-    echo "Deployment for ACS started"
+    echo "Deployment for ACS started (DEPRECATED)"
     az group create --name $rgName --location $resourceLocation --output None
     az acs create -n cctestacs -d cctestacsdns -g $rgName --generate-ssh-keys --orchestrator-type kubernetes --output None
     echo "Deployment for ACS complete"
