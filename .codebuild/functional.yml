@@ -31,9 +31,9 @@ phases:
     #- /bin/bash tools/c7n_azure/tests_azure/templates/provision.sh batch
     - /bin/bash tools/c7n_azure/tests_azure/templates/cleanup.sh --skip keyvault cost-management-export containerservice apimanagement
     - /bin/bash tools/c7n_azure/tests_azure/templates/provision.sh --skip keyvault cost-management-export containerservice apimanagement
-    finally:
-    - /bin/bash -c "if [ /"$CODEBUILD_BUILD_SUCCEEDING/" == /"1/" ]; then exit 1; fi"
-    - /bin/bash tools/c7n_azure/tests_azure/templates/cleanup.sh --skip keyvault cost-management-export containerservice apimanagement
+    # finally:
+    #- /bin/bash -c "if [ /"$CODEBUILD_BUILD_SUCCEEDING/" == /"1/" ]; then exit 1; fi"
+    #- /bin/bash tools/c7n_azure/tests_azure/templates/cleanup.sh --skip keyvault cost-management-export containerservice apimanagement
     
   build:
     commands:
