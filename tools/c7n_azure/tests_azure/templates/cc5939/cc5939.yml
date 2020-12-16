@@ -1,7 +1,0 @@
-policies:
-  - name: az-postgresql-withoutfw
-    resource: azure.postgresql-server
-    filters:
-      - type: firewall-rules
-        include: 
-          - 0.0.0.0
