@@ -241,7 +241,7 @@ class UtilsTest(BaseTest):
 
     @patch('c7n_azure.utils.send_logger.debug')
     @patch('c7n_azure.utils.send_logger.warning')
-    def test_custodian_azure_send_override_429_missingheader(self, logger_debug, logger_warning,):
+    def test_custodian_azure_send_override_429_missingheader(self, logger_debug, logger_warning):
         mock = Mock()
         mock.send = types.MethodType(custodian_azure_send_override, mock)
 
