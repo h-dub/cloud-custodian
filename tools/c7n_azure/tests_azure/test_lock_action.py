@@ -42,7 +42,6 @@ class LockActionTest(BaseTest):
                     resource['id'],
                     resource['lock']
                 )
-        super().tearDown()
 
     def test_valid_policy(self):
         policy = {
