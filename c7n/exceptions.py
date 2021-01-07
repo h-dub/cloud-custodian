@@ -22,6 +22,11 @@ class PolicySyntaxError(CustodianError):
     """
 
 
+class PolicySignatureError(CustodianError):
+    """Policy Signature Error
+    """
+
+
 class PolicyYamlError(PolicySyntaxError):
     """Policy Yaml Structural Error
     """

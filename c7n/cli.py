@@ -98,6 +98,16 @@ def _default_options(p, exclude=[]):
     else:
         p.add_argument("--cache", default=None, help=argparse.SUPPRESS)
 
+    if 'signed' not in exclude:
+        p.add_argument(
+            '--signed',
+            metavar='PUBLIC_KEYFILE',
+            action='append',
+            default=[],
+            help='Verify policy signature with public key stored in a file')
+    else:
+        p.add_argument('--signed', default=[], help=argparse.SUPPRESS)
+
 
 def _report_options(p):
     """ Add options specific to the report subcommand. """

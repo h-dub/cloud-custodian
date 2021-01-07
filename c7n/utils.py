@@ -20,7 +20,7 @@ from urllib.request import getproxies
 from dateutil.parser import ParserError, parse
 
 from c7n import config
-from c7n.exceptions import ClientError, PolicyValidationError
+from c7n.exceptions import ClientError, PolicyValidationError, PolicySignatureError
 
 # Try to play nice in a serverless environment, where we don't require yaml
 
@@ -47,7 +47,7 @@ class VarsSubstitutionError(Exception):
     pass
 
 
-def load_file(path, format=None, vars=None):
+def load_file(path, format=None, vars=None, keys=None):
     if format is None:
         format = 'yaml'
         _, ext = os.path.splitext(path)
@@ -56,7 +56,11 @@ def load_file(path, format=None, vars=None):
 
     with open(path) as fh:
         contents = fh.read()
-
+        if keys:
+            if format == 'yaml':
+                yaml_verify_sig(contents, keys)
+            elif format == 'json':
+                json_verify_sig(contents, keys)
         if vars:
             try:
                 contents = contents.format(**vars)
@@ -71,6 +75,63 @@ def load_file(path, format=None, vars=None):
             return yaml_load(contents)
         elif format == 'json':
             return loads(contents)
+
+
+def sign_file(path, format=None, keys=None):
+    pass
+
+
+def validate_file(path, format=None, keys=None):
+    pass
+
+
+def load_public_key(key_path):
+    from cryptography.hazmat.primitives import serialization
+
+    public_key = None
+    with open(key_path, "rb") as key_file:
+        public_key = serialization.load_pem_public_key(key_file.read(), password=None)
+    return public_key
+
+
+def load_private_key(key_path):
+    from cryptography.hazmat.primitives import serialization
+
+    private_key = None
+    with open(key_path, "rb") as key_file:
+        private_key = serialization.load_pem_private_key(key_file.read(), password=None)
+    return private_key
+
+
+def verify_sig(contents, sig, keys):
+    from cryptography.hazmat.primitives import hashes
+    from cryptography.hazmat.primitives.asymmetric import padding
+    # content must be signed by at least one known key to be valid
+    for key in keys:
+        try:
+            public_key = load_key(key)
+            public_key.verify(
+                sig,
+                contents,
+                padding.PSS(mgf=padding.MGF1(hashes.SHA256()),
+                            salt_length=padding.PSS.MAX_LENGTH),
+                hashes.SHA256())
+            return
+        except Exception:
+            # verify() raises InvalidSignature but we also want to ignore any other
+            # exceptions that might have occured while loading the key
+            pass
+    raise PolicySignatureError("Invalid policy signature.")
+
+
+def yaml_verify_sig(contents, keys):
+    # extract the signature watermark from the content for verification
+    sig = 'somesig'
+    verify_sig(contents, sig, keys)
+
+
+def json_verify_sig(contents, keys):
+    raise PolicySignatureError("JSON policies do not support signature verification.")
 
 
 def yaml_load(value):
